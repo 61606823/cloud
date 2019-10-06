@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        #注册中心地址
+        server-addr: 192.168.243.128:8848
+        #命名空间Id
+        namespace: 0976d7fe-d265-46bb-b4dc-c73a22d89c53
+        #集群名称
+        cluster-name: SZ
+    gateway:
+      discovery:
+        locator:
+          #让gateway通过服务发现组件找到其他的微服务
+          enabled: true
+      routes:
+        - id: consumer_route
+          uri: lb://consumer
+          predicates:
+            - Path=/consumer/**
+server:
+  port: 8000

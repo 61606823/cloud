@@ -1,7 +1,7 @@
 #${spring.cloud.nacos.config.prefix}-${spring.profile.active}.${spring.cloud.nacos.config.file-extension}
 spring:
   application:
-    name: com-viki-cloud-server
+    name: server
   cloud:
     nacos:
       config:

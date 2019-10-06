@@ -51,7 +51,7 @@ ribbon:
   eager-load:
     #开启饥饿加载
     enabled: true
-    clients: com-viki-cloud-server
+    clients: server
 feign:
   client:
     config:

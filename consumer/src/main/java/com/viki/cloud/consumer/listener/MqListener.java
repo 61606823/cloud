@@ -43,7 +43,7 @@ public class MqListener {
      *
      * @param errorMessage
      */
-    //@ServiceActivator(inputChannel = InputBinder.INPUT_TEST + ".com-viki-cloud-consumer-group.errors")
+    //@ServiceActivator(inputChannel = InputBinder.INPUT_TEST + ".consumer-group.errors")
 //    public void testReceiverFallbackHandler(ErrorMessage errorMessage) {
 //        // 获取异常对象
 //        Throwable errorMessagePayload = errorMessage.getPayload();

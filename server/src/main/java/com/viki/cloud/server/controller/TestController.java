@@ -83,12 +83,12 @@ public class TestController {
         log.info("Send:{}", message);
 
         outputBinder.testChannel().send(
-                MessageBuilder.withPayload(message + "-h1")
+                MessageBuilder.withPayload(message + "-v1")
                         .setHeader("version", "1.0")
                         .build()
         );
         outputBinder.testChannel().send(
-                MessageBuilder.withPayload(message + "-h2")
+                MessageBuilder.withPayload(message + "-v2")
                         .setHeader("version", "2.0")
                         .build()
         );
