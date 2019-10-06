@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        #注册中心地址
+        server-addr: 192.168.243.128:8848
+        #命名空间Id
+        namespace: 0976d7fe-d265-46bb-b4dc-c73a22d89c53
+        #集群名称
+        cluster-name: SZ
+    stream:
+      rabbit:
+        bindings:
+          topic-test:
+            producer:
+              #开启延迟消息的功能，这样在创建exchange的时候，会将其设置为具有延迟特性的exchange，用到安装的延迟消息插件的功能。
+              delayed-exchange: false
+  rabbitmq:
+    addresses: 192.168.243.128
+    port: 5672
+    username: cwei
+    password: 123456
+info:
+  name: ${spring.application.name}

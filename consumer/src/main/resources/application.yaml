@@ -1,0 +1,88 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        #注册中心地址
+        server-addr: 192.168.243.128:8848
+        #命名空间Id
+        namespace: 0976d7fe-d265-46bb-b4dc-c73a22d89c53
+        #集群名称
+        cluster-name: SZ
+    sentinel:
+      transport:
+        #sentinel dashboard地址
+        dashboard: 192.168.243.128:8080
+      datasource:
+        ds:
+          #sentinel使用Nacos存储规则
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-sentinel
+            groupId: DEFAULT_GROUP
+            rule-type: flow
+    stream:
+      bindings:
+        topic-test:
+          #当指定了某个绑定所指向的消费组之后，往当前主题发送的消息在每个订阅消费组中，只会有一个订阅者接收和消费，从而实现了对消息的负载均衡。
+          group: ${spring.application.name}-group
+            #consumer:
+            #重复次数，默认值是3
+            #max-attempts: 1
+      rabbit:
+        bindings:
+          topic-test:
+            consumer:
+              #开启DLQ（死信队列）
+              auto-bind-dlq: true
+              #控制DLQ队列中消息的存活时间，当超过配置时间之后，该消息会自动的从DLQ队列中移除
+              dlq-ttl: 30000
+              #在headers中加入错误信息
+              republish-to-dlq: true
+              #在该配置作用之下，消息消费失败之后，并不会将该消息抛弃，而是将消息重新放入队列，所以消息的消费逻辑会被重复执行，直到这条消息消费成功为止。
+              requeue-rejected: true
+              #开启延迟消息的功能
+              delayed-exchange: false
+  rabbitmq:
+    addresses: 192.168.243.128
+    port: 5672
+    username: cwei
+    password: 123456
+ribbon:
+  eager-load:
+    #开启饥饿加载
+    enabled: true
+    clients: com-viki-cloud-server
+feign:
+  client:
+    config:
+      #全局配置
+      default:
+        #日志级别
+        #NONE：不记录任何日志（默认值）
+        #BASIC：仅记录请求方法、URL、响应状态代码以及执行时间
+        #HEADERS：记录BASIC级别的基础上，记录请求和响应的header
+        #FULL：记录请求和响应的header，body和元数据
+        loggerLevel: FULL
+        #拦截器
+        requestInterceptors: com.viki.cloud.consumer.interceptor.TokenRelayRequestIntecepor
+  sentinel:
+    #为feign整合sentinel
+    enabled: true
+  #配置feign使用httpclient
+  httpclient:
+    #让feign使用apache httpclient做请求，而不是默认的URLConnection
+    enabled: true
+    connection-timeout: 5000
+    #feign的最大连接数
+    max-connections: 1000
+    #feign单个路径的最大连接数
+    max-connections-per-route: 500
+    time-to-live: 900
+    time-to-live-unit: seconds
+    disable-ssl-validation: true
+info:
+  name: ${spring.application.name}
+logging:
+  level:
+    #将Feign接口的日志级别设置成DEBUG，因为Feign的Logger.Level只对DEBUG作出响应。
+    com.viki.cloud.consumer.feignClient.*: DEBUG

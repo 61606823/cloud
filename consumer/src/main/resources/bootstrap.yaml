@@ -1,0 +1,18 @@
+#${spring.cloud.nacos.config.prefix}-${spring.profile.active}.${spring.cloud.nacos.config.file-extension}
+spring:
+  application:
+    name: com-viki-cloud-consumer
+  cloud:
+    nacos:
+      config:
+        #命名空间Id
+        namespace: 0976d7fe-d265-46bb-b4dc-c73a22d89c53
+        #配置中心地址
+        server-addr: 192.168.243.128:8848
+        file-extension: yaml
+        #配置多个共享配置的Data Id，多个的时候用用逗号分隔
+        shared-dataids: actuator.yaml,log.yaml
+        #定义哪些共享配置的Data Id在配置变化时，应用中可以动态刷新，多个的时候用用逗号分隔。如果没有明确配置，默认情况下所有共享配置都不支持动态刷新
+        refreshable-dataids: actuator.yaml,log.yaml
+server:
+  port: 8002
