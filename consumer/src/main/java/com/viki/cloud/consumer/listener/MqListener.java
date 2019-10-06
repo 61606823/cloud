@@ -3,7 +3,6 @@ package com.viki.cloud.consumer.listener;
 import com.alibaba.fastjson.JSON;
 import com.viki.cloud.common.mq.InputBinder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -29,14 +28,14 @@ public class MqListener {
     public void testReceiver(@Headers Map headers, @Payload Object payload) {
         log.info("Received {}-headers:{},payload:{}", count, JSON.toJSONString(headers), payload);
 
-        if (count == 3) {
-            count = 1;
-            //当抛出这个异常的时候，会将消息放入DLQ队列，从而不会造成严重的堆积问题。
-            throw new AmqpRejectAndDontRequeueException("tried 3 times failed, send to dlq!");
-        } else {
-            count++;
-            throw new RuntimeException("Message consumer failed!");
-        }
+//        if (count == 3) {
+//            count = 1;
+//            //当抛出这个异常的时候，会将消息放入DLQ队列，从而不会造成严重的堆积问题。
+//            throw new AmqpRejectAndDontRequeueException("tried 3 times failed, send to dlq!");
+//        } else {
+//            count++;
+//            throw new RuntimeException("Message consumer failed!");
+//        }
     }
 
     /**
