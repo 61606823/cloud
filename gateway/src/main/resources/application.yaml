@@ -22,10 +22,8 @@ spring:
             #- Path=/consumer/**
             - TimeBetween=上午9:00,下午5:00
           filters:
-            - name: PreLog
-              args:
-                name: k1
-                value: v1
+            - Authorize=true
+            - RequestTime=true
 management:
   endpoints:
     web:
@@ -36,3 +34,6 @@ management:
       show-details: always
 server:
   port: 8000
+logging:
+  level:
+    org.springframework.cloud.gateway: info
