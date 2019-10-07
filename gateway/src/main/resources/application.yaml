@@ -19,6 +19,20 @@ spring:
         - id: consumer_route
           uri: lb://consumer
           predicates:
-            - Path=/consumer/**
+            #- Path=/consumer/**
+            - TimeBetween=上午9:00,下午5:00
+          filters:
+            - name: PreLog
+              args:
+                name: k1
+                value: v1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
 server:
   port: 8000
